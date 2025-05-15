@@ -1,0 +1,17 @@
+{
+  "name": "news-jkt48",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Zeexsha",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "build": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "cheerio": "^1.0.0"
+  }
+}
