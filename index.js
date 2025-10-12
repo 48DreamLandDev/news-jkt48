@@ -5,7 +5,19 @@ const fs_promise = require('fs').promises
 const getLatest = async () => {
     try {
         // request get API 
-        const response = await axios.get(`https://takagi.sousou-no-frieren.workers.dev/news/list`) 
+        const response = await axios.get(`https://takagi.sousou-no-frieren.workers.dev/news/list`, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Referer': 'https://jkt48.com/',
+                'Cache-Control': 'no-cache'
+            },
+            // FIX: tambahkan timeout dan follow redirect
+            timeout: 15000,
+            maxRedirects: 5,
+            validateStatus: status => status >= 200 && status < 400 // jangan error kalau redirect
+        }) 
         const $ = cheerio.load(response.data)
         
         const title_web = $('title').text()
@@ -27,7 +39,19 @@ const getLatest = async () => {
 const getNews = async () => {
     try {
         const url_latestNews = await getLatest()
-        const response = await axios.get(url_latestNews)
+        const response = await axios.get(url_latestNews, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Referer': 'https://jkt48.com/',
+                'Cache-Control': 'no-cache'
+            },
+            // FIX: tambahkan timeout dan follow redirect
+            timeout: 15000,
+            maxRedirects: 5,
+            validateStatus: status => status >= 200 && status < 400 // jangan error kalau redirect
+        })
         const $ = cheerio.load(response.data)
         
         const news_detail = $('div.entry-news__detail')
